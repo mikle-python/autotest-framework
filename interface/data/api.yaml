@@ -1,0 +1,7 @@
+login:
+- login_right
+- login_bad_password
+- login_bad_user
+#get:
+#- get_app
+#- get_app_not_exist

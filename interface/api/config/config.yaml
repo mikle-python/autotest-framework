@@ -1,0 +1,6 @@
+variable:
+  username1: admin
+  password1: password
+  var1: apis
+  var2: login
+  method: post

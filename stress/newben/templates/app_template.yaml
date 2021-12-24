@@ -1,0 +1,27 @@
+meta:
+  domain: apps
+  kind: application
+  name: neilautoapp
+  workspace: system
+spec:
+  strategy:
+    historyLimit: 1
+    maxSurge: 1
+    maxUnavailable: 0
+  template:
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+          - image: registry.cluster.local/arm64v8/nginx-arm64:1.18.0
+            imagePullPolicy: IfNotPresent
+            name: neilautoapp-container
+            resources:
+              cpu: 100
+              memory: 104857600
+            restartPolicy: Always
+          network: default-pool
+          type: container
+          workerAffinity:
+            matchExpressions: null

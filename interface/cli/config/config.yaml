@@ -1,0 +1,5 @@
+variable:
+  var1: apis
+  var2: login
+  bin: apctl
+  path: root

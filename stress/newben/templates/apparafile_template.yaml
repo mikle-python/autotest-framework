@@ -1,0 +1,7 @@
+meta:
+  domain: apps
+  kind: apparafile
+  name: neilconf3
+  workspace: system
+spec:
+  data: {}

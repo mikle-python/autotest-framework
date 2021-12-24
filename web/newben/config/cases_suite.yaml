@@ -1,0 +1,94 @@
+aa_pandect: #总览
+  - pandect_catalog
+  - pandect_anomaly
+login: #登陆
+  - login_wrong_password
+  - login_not_exist_user
+  - login_password_null
+  - login_right
+  - login_right_ldap
+appstore_my: #我的应用
+  - appstore_my_create_application
+  - appstore_my_view_details
+  - appstore_my_view_details_redeplo
+  - appstore_my_dispose_details
+  - appstore_my_amend_application
+  - appstore_my_delete_application
+appstore_my_details: #我的应用-查看详情
+  - appstore_my_details_application_details
+  - appstore_my_details_strategy
+  - appstore_my_details_history
+appstore_array: #应用矩阵
+  - appstore_array_create_application_array
+  - appstore_array_view_details
+  - appstore_array_matrix_details
+  - appstore_array_view_details_redeplo
+  - appstore_array_amend_application
+  - appstore_array_delete_application
+offline_tasks: #离线任务
+  - offline_tasks_create_offline_tasks
+  - offline_tasks_view_details
+  - offline_tasks_view_details_redeplo
+  - offline_tasks_delete
+timed_task: #定时任务
+  - timed_task_create_timed_task
+  - timed_task_view_details
+  - timed_task_view_details_redeplo
+  - timed_task_suspended_task
+  - timed_task_amend_task
+  - timed_task_delete
+configuration_management: #配置管理
+  - configuration_management_Increase_configuration
+  - configuration_management_Modify_configuration
+  - configuration_management_search_configuration
+  - configuration_management_delete
+log_incident: #日志管理
+  - log_incident
+  - log_incident_inspect
+  - log_incident_auditing
+  - log_incident_operation
+  - log_incident_account_search
+  - log_incident_date_search
+host_management: #主机管理
+  - host_management_status_checkout
+  - host_management_Modify_node
+  - host_management_deal_details
+  - host_management_save_cost
+  - host_management_label_set
+  - host_management_view_details
+mirror_image: #镜像管理-容器镜像
+  - mirror_image_uploading
+  - mirror_image_online_production
+  - mirror_image_view_details
+  - mirror_image_delect
+virtual_mirror: #镜像管理-虚拟机镜像
+  - virtual_mirror_creat
+  - virtual_mirror_view_details_delect
+storage_administration: #存储管理-资源池
+  - torage_administration_create_localstorage
+  - torage_administration_create_glusterfs
+  - torage_administration_create_cephfs
+  - torage_administration_create_cephrbd
+  - torage_administration_search
+storage_administration_list: #存储管理-列表
+  - torage_administration_create_list
+  - torage_administration_create_list_detail
+user_control: #用户管理
+  - user_control_create_user
+  - user_control_search_user
+  - user_control_revamp_user
+  - user_control_delect_user
+space_management: #空间管理
+  - space_management_create_space
+  - space_management_search_space
+  - space_management_revamp_space
+  - space_management_delect_space
+authority_management: #权限管理
+  - authority_management_create_user
+  - authority_management_search_networks
+  - authority_management_revamp_networks
+  - authority_management_delect_networks
+  - authority_management_cearte_authorization
+  - authority_management_search_authorization
+  - authority_management_revamp_authorization
+  - authority_management_delect_authorization

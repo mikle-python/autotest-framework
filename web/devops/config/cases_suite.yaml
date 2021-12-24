@@ -1,0 +1,61 @@
+login:
+#  - login_page_check
+#  - login_wrong_password
+#  - login_not_exist_user
+#  - login_password_null
+#  - login_user_limit
+  - login_right
+#  - login_right_ldap
+
+coordination:
+#  - new_requirement_islegal
+#  - edit_requirement_islegal
+#  - modify_requirement
+#  - delete_requirement
+#  - test_handle_requirement
+#  - related_requirement_display_jump
+#  - related_requirement_jump_matter
+#  - modify_related_requirement
+#  - original_requirements_paging_info
+#  - find_original_requirements
+#  - find_requirement_by_keyword
+#  - status_filter
+#  - priority_filter
+#  - create_time_sort
+#  - requirement_comment_legal
+#  - requirement_comment_wrongful
+#  - requirement_comment_carry_url
+#  - requirement_comment_thumbs
+#  - handle_requirement_abnormal_scene
+#  - upload_attachment_abnormal_scene
+#  - requirement_status_multiple_choice
+#
+#  - create_iteration_and_event
+#  - create_iteration_and_event_abnormal_scene
+#  - search_event_by_id_and_title
+#  - create_iteration_complete
+#  - create_event_complete
+#  - start_iteration
+#  - edit_iteration
+#  - jump_iteration
+#  - complete_iteration_wrongful
+#  - complete_iteration
+#  - search_after_filter_event_types
+#  - iteration_basic_info_display
+#  - create_event_in_the_completed_iteration
+#  - event_priority_sort
+#  - event_create_time_sort
+#  - create_event_legal
+#  - edit_event_legal
+#  - event_data_paging_view
+#  - requirement_info_display
+#  - create_requirement_legal
+#  - edit_requirement_legal
+#  - requirements_page_refresh
+#  - requirements_reset_query
+#  - requirements_priority_sort
+#  - requirements_create_time_sort
+#  - delete_iteration
+#  - delete_requirement
+
+

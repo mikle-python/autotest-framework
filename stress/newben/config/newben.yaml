@@ -1,0 +1,19 @@
+newben:
+  app_type: nginx
+  share_storage_vms: []
+  add_nodes_ip: []
+  app_command: ''
+  box: ''
+ai:
+  mission_type: tensorflow
+  train_code_path: 3/test-not-delete/tf-s
+  train_data_path: 3/datasets/mnist
+  train_output_path: 3/output/
+  api_server: "http://127.0.0.1:28080"
+  ai_api_username: admin
+  ai_api_password: password
+  train_mission_command: python===mnist.py
+  min_wait: 1
+  max_wait: 10
+  gpu_quantity: 4
+

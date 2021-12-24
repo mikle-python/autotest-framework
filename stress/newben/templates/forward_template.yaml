@@ -1,0 +1,11 @@
+meta:
+  domain: apps
+  kind: forward
+  name: neiltestnginx
+  workspace: system
+spec:
+  rules:
+  - boxPort: 80
+    protocol: TCP
+  selector:
+    application-name: neiltestnginx

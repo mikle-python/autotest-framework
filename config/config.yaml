@@ -1,0 +1,15 @@
+email:
+  send: false
+  sender: luochao@ghostcloud.cn
+  receivers: luochao@ghostcloud.cn, wangkun@ghostcloud.cn, zhuqi@ghostcloud.cn
+  smtp_server: 10.0.3.18
+  username: luochao
+  password: JLY123456
+  smtp_port: 25
+vcenter:
+  vc_ip: 192.168.5.6
+  vc_user: administrator@vsphere.local
+  vc_pwd: P@ssw0rd
+  vc_port: 443
+collect:
+  log: true

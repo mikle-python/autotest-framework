@@ -1,0 +1,36 @@
+meta:
+  domain: apps
+  kind: appmatrix
+  name: test1
+  workspace: system
+spec:
+  items:
+  - meta:
+      domain: apps
+      kind: application
+      name: app_name
+    spec:
+      strategy:
+        historyLimit: 1
+        maxSurge: 1
+        maxUnavailable: 0
+      template:
+        spec:
+          replicas: 1
+          template:
+            spec:
+              containers:
+              - image: registry.cluster.local/amd64/ubuntu:20.04
+                imagePullPolicy: Always
+                name: app_name-container
+                resources:
+                  cpu: 300
+                  memory: 268435456
+                restartPolicy: Always
+              network: default-pool
+              type: container
+              workerAffinity:
+                matchExpressions: null
+  topology:
+  - name: app_name
+    order: 0

@@ -1,0 +1,4 @@
+log:
+  dockers_name_pattern:
+    - nb
+    - docker-nai

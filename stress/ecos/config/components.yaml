@@ -1,0 +1,51 @@
+components:
+  redis:
+    redis_ip: 127.0.0.1
+    redis_port: 6379
+    redis_pwd: password
+    redis_data_quantity: 10000
+  kafka:
+    brokers: 127.0.0.1:9092
+    client_quantity: 1
+    group_id: test_kafka_group
+    topic: test_kafka
+    topic_quantity: 1000
+    message_quantity: 10000
+    message_min_size: 10240
+    message_max_size: 102400
+    mode: None
+    mode1: producer
+    mode2: consumer
+  es:
+    es_ips: ['127.0.0.1']
+    es_port: 9200
+    es_user: root
+    es_pwd: password
+    docs_num: 100000
+    indices_num: 50
+    max_bulk_size: 1000
+    index_name: gc_index
+  nacos:
+    server_address: "http://127.0.0.1:8848"
+    namespace: ''
+    username: nacos
+    password: nacos
+    config_quantity: 1000
+    instance_quantity: 1000
+  minio:
+    end_point: "minio-0.minio-headless.venus-plugin.svc.cluster.local:9000"
+    access_key: useruser
+    secret_key: password
+    secure: False
+    bucket_name: gc-minio-test
+    file_upload_path: /home/gc_upload_test
+    file_download_path: /home/gc_download_test
+    file_min_size: 1
+    file_max_size: 1024
+    file_quantity: 10000
+  zookeeper:
+    zk_hosts: "127.0.0.1:2181"
+    zk_path_name: /gc_zk_test
+    min_node_value: 1
+    max_node_value: 1024
+    node_quantity: 1000

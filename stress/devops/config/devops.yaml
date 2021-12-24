@@ -1,0 +1,392 @@
+common:
+  list_page_size: 10
+  api_server_ip: 192.168.5.240
+  api_server: "http://192.168.5.240/"
+  header_after_login: {
+    "Content-Type": "application/json; charset=utf-8",
+    "Authorization": "auth_token",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+  }
+  header_without_login: {
+    "Content-Type": "application/json; charset=utf-8",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+  }
+  projectId: 1
+  user_manager_id: "1"
+  mysql:
+    host: 192.168.5.240
+    username: root
+    password: P@ssw0rd
+  show_mysql:
+    host: 192.168.5.8
+    username: root
+    password: password
+
+login_info:
+  username: admin
+  password: adminP@ssw0rd
+  provider: DEVOPS
+  login_path: devops-back/member/login
+
+performance:
+  pipeline:
+    pipeline_quantity: 2
+    pipeline_name: auto-test
+    data_create_pipeline: {
+      "type": "空流水线",
+      "canvas": {
+        "nodes": [
+          {
+            "id": "0",
+            "label": "开始节点",
+            "size": "150*60",
+            "x": 100,
+            "y": 175,
+            "index": 0
+          },
+          {
+            "type": "node",
+            "size": "150*60",
+            "shape": "custom-node",
+            "label": "gitea",
+            "stage": {
+              "stageType": "gitea",
+              "name": "gitea",
+              "url": "http://192.168.0.14:3001/root/devops.git",
+              "username": "root",
+              "password": "password",
+              "repoenum": "GITEA",
+              "branch": "master",
+              "dir": "./",
+              "bool": true
+            },
+            "add": false,
+            "disabled": false,
+            "parallel": false,
+            "firstParallel": false,
+            "merge": false,
+            "x": 300,
+            "y": 175,
+            "id": "aa5b5860",
+            "flag": true,
+            "isTemp": false,
+            "error": false,
+            "index": 1
+          },
+          {
+            "type": "node",
+            "size": "150*60",
+            "shape": "custom-node",
+            "label": "构建",
+            "stage": {
+              "stageType": "shell",
+              "name": "构建",
+              "shellScript": "rm -rf ./devops-platform.jar\nmvn clean package -Dmaven.test.skip=true\nmv ./target/devops-platform.jar ./"
+            },
+            "add": false,
+            "disabled": false,
+            "parallel": false,
+            "firstParallel": false,
+            "merge": false,
+            "x": 500,
+            "y": 175,
+            "id": "61391462",
+            "flag": true,
+            "error": false,
+            "index": 3
+          }
+        ],
+        "edges": [
+          {
+            "source": "0",
+            "target": "aa5b5860",
+            "id": "0.41352486943522004",
+            "sourceAnchor": 0,
+            "targetAnchor": 1,
+            "index": 2
+          },
+          {
+            "source": "aa5b5860",
+            "target": "61391462",
+            "id": "0.06778370000660883",
+            "sourceAnchor": 0,
+            "targetAnchor": 1,
+            "index": 4
+          }
+        ]
+      },
+      "name": "gc_test",
+      "projectId": 1
+    }
+    data_create_pipeline_demo: {
+      "type": "空流水线",
+      "canvas": {
+        "nodes": [
+          {
+            "id": "0",
+            "label": "开始节点",
+            "size": "150*60",
+            "x": 100,
+            "y": 175,
+            "index": 0
+          },
+          {
+            "type": "node",
+            "size": "150*60",
+            "shape": "custom-node",
+            "label": "gitea",
+            "stage": {
+              "stageType": "gitea",
+              "name": "gitea",
+              "url": "http://192.168.0.14:3001/root/Java-demo.git",
+              "username": "root",
+              "password": "password",
+              "repoenum": "GITEA",
+              "branch": "master",
+              "dir": "./",
+              "bool": true
+            },
+            "add": false,
+            "disabled": false,
+            "parallel": false,
+            "firstParallel": false,
+            "merge": false,
+            "x": 300,
+            "y": 175,
+            "id": "3e0ed358",
+            "flag": true,
+            "isTemp": false,
+            "error": false,
+            "index": 1
+          },
+          {
+            "type": "node",
+            "size": "150*60",
+            "shape": "custom-node",
+            "label": "compile",
+            "stage": {
+              "stageType": "shell",
+              "name": "compile",
+              "shellScript": "mvn clean package -Dmaven.test.skip=true"
+            },
+            "add": false,
+            "disabled": false,
+            "parallel": false,
+            "firstParallel": false,
+            "merge": false,
+            "x": 500,
+            "y": 175,
+            "id": "9d9982a0",
+            "flag": true,
+            "error": false,
+            "index": 3
+          }
+        ],
+        "edges": [
+          {
+            "source": "0",
+            "target": "3e0ed358",
+            "id": "0.799488676571565",
+            "sourceAnchor": 0,
+            "targetAnchor": 1,
+            "index": 2
+          },
+          {
+            "source": "3e0ed358",
+            "target": "9d9982a0",
+            "id": "0.5766198912310005",
+            "sourceAnchor": 0,
+            "targetAnchor": 1,
+            "index": 4
+          }
+        ]
+      },
+      "name": "gc_test",
+      "projectId": 1
+    }
+    data_pipeline_id: {
+      "id": "id"
+    }
+    path:
+      create_pipeline: devops-back/pipelineProd
+      build_pipeline: devops-back/pipelineProd/start?id=pipeline_id
+      pipeline_list: devops-back/pipelineProd/getAllPipelineByProjectId?currentPage=1&pageSize=10&projectId=project_id
+      pipeline_build_list: devops-back/pipelineProd/buildHistoryAll
+      pipeline_build_detail: devops-back/pipelineProd/pipelineBuildInfo?id=pipeline_id&buildId=1
+  assist:
+    job_dashboard:
+      wait_plan:
+        backlog_quantity: 1
+        path:
+          list_wait_plan: devops-back/issue/waitPlan/queryForm
+          create_backlog: devops-back/issue/quickCreation
+      all_issue:
+        issue_quantity: 1
+        path:
+          list_all_issue: devops-back/issue/query
+          create_issue: devops-back/issue/fullyCreation
+    current_iteration:
+      sprintId: 1
+      swim_line:
+        issue_quantity: 50
+        path:
+          create_issue: devops-back/issue/fullyCreation
+          list_swim_line: devops-back/swimlane/getSwimlane
+    originalIssue:
+      og_issue_quantity: 50
+      path:
+        create_og_issue: devops-back/originalIssue/create
+        list_og_issue: devops-back/originalIssue/list
+  test:
+    case_library:
+      case_group_id: 7
+      case_quantity: 50
+      path:
+        create_case: devops-back/testcase/create
+        list_cases: devops-back/testcase/byParent
+    test_plan:
+      case_quantity: 50
+      plan_quantity: 5
+      plan_is_all: true
+      plan_sync: true
+      case_group_id: "7"
+      path:
+        create_case: devops-back/testcase/create
+        create_test_plan: devops-back/testplan?projectId=pID
+        list_plan: devops-back/testplan/all?projectId=pID
+        list_case_from_plan: devops-back/testplan/testcase
+  setting:
+    team:
+      user_quantity: 100
+      password: P@ssw0rd
+      path:
+        user_register: devops-back/member
+        list_team_user: devops-back/team/userGroup
+    role:
+      user_quantity: 2
+      password: P@ssw0rd
+      teamname: 1
+      path:
+        user_register: devops-back/member
+        list_role_user: devops-back/team/role/pageQuery?teamName=1
+  work_platform:
+    build_note:
+      build_quantity: 3
+      path:
+        build_pipeline: devops-back/pipelineProd/start?id=pipeline_id
+        build_note: devops-back/projectProd/buildAllByUser
+    remain_issue:
+      remain_issue_quantity: 50
+      sprintId: 1
+      path:
+        list_remain: devops-back/member/remainIssues
+        create_remain: devops-back/issue/fullyCreation
+    project:
+      project_quantity: 100
+      admin_user_id: 1
+      path:
+        list_project: devops-back/projectProd/projectsByProgram?programId=-1
+        create_project: devops-back/projectProd/project
+      project_user:
+        user_quantity: 10
+        projectId: 1
+        roleIDs: [ 200, 201 ]
+        password: P@ssw0rd
+        path:
+          list_project_user: devops-back/project/member/all?projectId=1
+          add_project_user: devops-back/project/member
+          user_register: devops-back/member
+  multiple_users:
+    username: autotest
+    password: P@ssw0rd
+    user_quantity: 5
+    sprintId: 1
+    path:
+      user_register: devops-back/member
+      add_project_user: devops-back/project/member
+      issue_create: devops-back/issue/fullyCreation
+      issue_comment: devops-back/issue/createComment
+      issue_update: devops-back/issue
+      issue_detail: devops-back/issue?issueId=issue_id&projectId=project_id
+      issue_delete: devops-back/issue?issueId=issue_id&deleteChildren=false
+      case_create: devops-back/testcase/create
+      case_update: devops-back/testcase/edit
+      case_detail: devops-back/testcase/getInfo?id=case_id
+      case_delete: devops-back/testcase/bulkDelete
+    project:
+      member_role: [ 200 ]
+    case:
+      case_group_id: 19
+      group_path: 全部用例/测试用例文件夹1/
+      edit_data: {
+        "id": test,
+        "title": test,
+        "parentId": test,
+        "projectId": test,
+        "level": test,
+        "type": test,
+        "precondition": test,
+        "descriptionType": test,
+        "issueId": -1,
+        "path": test,
+        "directoryPath": "0,1",
+        "description": "test",
+        "expectResult": "test",
+        "creatorId": 1,
+        "creatorName": "管理员",
+        "planned": true,
+        "descriptions": [
+          {
+            "description": "dddd",
+            "expectResult": "dddd"
+          }
+        ],
+        "bugs": [ ],
+        "labelInfoInfos": [ ],
+        "files": [ ],
+        "fileNames": [ ],
+        "issueTitle": null,
+        "issueIdPerProject": null,
+        "status": null,
+        "note": null,
+        "successes": null,
+        "failures": null,
+        "blockeds": null,
+        "focusFlag": null,
+        "order": null,
+        "directoryId": null,
+        "copyNumber": null
+      }
+
+api_data:
+  project:
+    assist:
+      og_issue:
+        create_og_issue: {
+          "summarize": autotest,
+          "source": [ "客户", "老板", "客服", "收集" ],
+          "priority": [ 1, 2, 3 ],
+          "projectId": project_id,
+          "description": "<p>test</p>",
+          "name": "",
+          "fileNames": [ ]
+        }
+        list_og_issue: {
+          "projectId": project_id,
+          "currentPage": 1,
+          "pageSize": [ 10, 20, 50, 100 ],
+          "status": [ ]
+        }
+      issue_dashboard:
+      iteration_plan:
+      current_iteration:
+    pipeline:
+      pipeline:
+    test:
+      case_library:
+      test_plan:
+    setting:
+      user_group:
+  setting:
+    team_setting:
+    role_setting:

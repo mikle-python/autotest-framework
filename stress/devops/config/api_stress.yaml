@@ -1,0 +1,40 @@
+common:
+  api_server_ip: 192.168.5.5
+  api_server: http://192.168.5.5/
+  concurrent: 20
+  data_quantity: 100
+
+database:
+  mysql:
+    host: 192.168.5.5
+    username: root
+    password: P@ssw0rd
+  show_mysql:
+    host: 192.168.5.8
+    username: root
+    password: password
+  table_names: ['create_project']
+
+login_info:
+  username: admin
+  password: password
+  provider: builtin
+  login_path: devops-back/member/login
+
+project:
+  path:
+    create: devops-back/projectProd/project
+  data:  {
+          "projectProd": {
+              "principalId": "1",
+              "name": wait_handle,
+              "description": "",
+              "projectCycle": "",
+              "projectImage": ""
+          },
+          "user": [
+              {
+                  "id": 1
+              }
+          ]
+          }

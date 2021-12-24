@@ -1,0 +1,559 @@
+common:
+  api_server_ip: 10.0.3.77
+  api_server: http://10.0.3.77
+  uid_api_server: ws://10.0.3.77
+  port: :80
+  login_info:
+    username: admin
+    password: password
+    provider: builtin
+  mysql:
+    host: 192.168.5.8
+    username: root
+    password: password
+  execute_test_env:
+    host: 192.168.5.13
+    username: root
+    password: password
+  workspace: system
+  header:
+    header_without_token: {
+      "Content-Type": "application/json;charset=UTF-8",
+    }
+  path:
+    login_path: /webserver/apis/login
+    witch_workspace: /webserver/apis/space/switch
+  image: registry.ghostcloud.cn/autotest/nginx-amd64
+  image_tag: test
+  wait_time: 5
+  concurrent: 20
+  data_quantity: 100
+
+case_module:
+  app_manager:
+    my_app:
+      default_create_app_data: {
+        "applicationName": autotest,
+        "type": "container",
+        "image": "registry.ghostcloud.cn/autotest/nginx-amd64",
+        "imageTag": "test",
+        "imagePullPolicy": [ "Always", "IfNotPresent" ],
+        "cpuResource": 100,
+        "memoryResource": 100,
+        "gpuResource": 0,
+        "containerName": autotest,
+        "replicas": 1,
+        "historyLimit": 1,
+        "maxSurge": 1,
+        "maxUnavailable": 0,
+        "weight": null
+      }
+      port: 30000
+      path:
+        create_application: /webserver/apis/application/createApplication
+        get_application: /webserver/apis/application/getApplicationList?page=1&size=10&applicationName=
+        application_detail: /webserver/apis/application/boxDetails
+        delete_application: /webserver/apis/application/applicationDelete
+        application_event: /webserver/apis/event/list?kind=application&name=app_name&page=1&size=10
+        update_application: /webserver/apis/application/updateApplication
+        expose_application: /webserver/apis/application/applicationExpose
+        delete_expose_application: /webserver/apis/application/applicationExpose
+        redeploy: /webserver/apis/application/redeploymentApplication
+    appmatrix:
+      app_quantity: 2
+      update_type: [ "update_current", "delete_one" ]
+      default_appmatrix_data: {
+        "appMatrixName": autotest,
+        "topology": [ {
+          "name": autotest-0,
+          "order": 0
+        } ],
+        "applicationList": [ {
+          "id": random_string_length_of_6,
+          "order": 0,
+          "applicationName": autotest-0,
+          "type": "container",
+          "image": "registry.ghostcloud.cn/autotest/nginx-amd64",
+          "imageTag": "test",
+          "imagePullPolicy": [ "Always", "IfNotPresent" ],
+          "cpuResource": 100,
+          "memoryResource": 100,
+          "gpuResource": 0,
+          "containerName": autotest-0,
+          "replicas": 1,
+          "historyLimit": 1,
+          "maxSurge": 1,
+          "maxUnavailable": 0
+        } ]
+      }
+      path:
+        create_appmatrix: /webserver/apis/application/createAppMatrix
+        delete_appmatrix: /webserver/apis/application/appMatrixDelete
+        update_appmatrix: /webserver/apis/application/reloadAppMatrix
+        appmatrix_detail: /webserver/apis/application/getAppMatrixDetail?page=1&size=10&applicationName=&appMatrixName=appmatrix_name
+        appmatrix_event: /webserver/apis/event/list?kind=appmatrix&name=appmatrix_name&page=1&size=10
+        appmatrix_list: /webserver/apis/application/getAppMatrixList?page=1&size=10&appMatrixName=
+    mission:
+      default_mission_data: {
+        "name": autotest,
+        "type": container,
+        "image": registry.ghostcloud.cn/autotest/nginx-amd64,
+        "imageTag": test,
+        "imagePullPolicy": [ "Always", "IfNotPresent" ],
+        "cpuResource": 100,
+        "memoryResource": 100,
+        "gpuResource": 0
+      }
+      path:
+        create_mission: /webserver/apis/mission/create
+        delete_mission: /webserver/apis/mission/delete
+        mission_list: /webserver/apis/mission/missionList?page=1&size=10&searchname=
+        mission_detail: /webserver/apis/mission/detail?name=mission_name
+        mission_event: /webserver/apis/event/list?kind=mission&name=mission_name&page=1&size=10
+    cronmission:
+      default_cronmission_data: {
+        "cronMissionName": autotest,
+        "type": container,
+        "image": registry.cluster.local/amd64/ubuntu,
+        "imageTag": 20.04,
+        "imagePullPolicy": [ "Always", "IfNotPresent" ],
+        "cpuResource": 100,
+        "memoryResource": 100,
+        "cronExpression": "* * * * *",
+        "concurrencyPolicy": [ "Allow", "Forbid", "Replace" ],
+        "gpuResource": 0,
+        "parallelism": 3,
+        "completions": 1,
+        "backoffLimit": 3,
+        "activeDeadlineSeconds": 60,
+        "successfulMissionsHistoryLimit": 3,
+        "failedMissionsHistoryLimit": 3,
+        "cmd": "sh\n-c\nls"
+      }
+      path:
+        create_cronmission: /webserver/apis/cronMission/create
+        delete_cronmission: /webserver/apis/cronMission/delete
+        update_cronmission: /webserver/apis/cronMission/update
+        suspend_cronmission: /webserver/apis/cronMission/stop
+        cronmission_list: /webserver/apis/cronMission/list?page=1&size=10&cronMissionName=
+        cronmission_detail: /webserver/apis/cronMission/get
+        cronmission_event: /webserver/apis/event/list?kind=cronmission&name=cronmission_name&page=1&size=10
+    apparafile:
+      default_apparafile_data:
+        {
+          "name": autotest,
+          "data": {
+            autotest: autotest
+          }
+        }
+      environment_quantity: 9
+      path:
+        create_apparafile: /webserver/apis/apparafile/create
+        update_apparafile: /webserver/apis/apparafile/update
+        delete_apparafile: /webserver/apis/apparafile/delete
+        apparafile_detail: /webserver/apis/apparafile/detail?name=af_name
+        apparafile_list: /webserver/apis/apparafile/apparafileList?page=1&pageSize=10&searchname=
+
+  overview:
+    path:
+      resource_overview: /webserver/apis/application/resourceOverview
+      resource_overview_list: /webserver/apis/application/resourceOverviewList
+
+  host_manager:
+    host_list:
+      default_create_node_data: {
+        "boxGCInterval": 30,
+        "forceSyncInterval": 2,
+        "appMonitorInterval": 5,
+        "workerMonitorInterval": 5,
+        "name": "workerset-rbdgt8",
+        "workers": [ {
+          "name": "worker-97wh9t",
+          "naiType": "container",
+          "naiHardware": "local",
+          "config": { },
+          "labels": { }
+        } ]
+      }
+      path:
+        get_workerset: /webserver/apis/workerset/name
+        create_node: /webserver/apis/workerset/create
+        list_node: /webserver/apis/worker/getWorkerList
+        get_node_detail: /webserver/apis/workerset/detail
+        modify_node: /webserver/apis/workerset/update
+        maintain_node: /webserver/apis/workerset/maintain
+        delete_node: /webserver/apis/workerset/delete
+
+  image_manager:
+    docker_image:
+      default_upload_image_data: {
+        "body": {
+          "name": "image",
+          "filename": "centos7.8_x86.tar"
+        }
+      }
+      default_delete_image_data: {
+        "image": "registry.cluster.local/nginx",
+        "tag": "v1"
+      }
+      default_product_image_data: {
+        "query_param": {
+          "uid": "d04b20bc-87f1-438a-b8d4-b4595c21d778",
+          "type": "exec",
+          "platform": "linux/amd64",
+          "tag": "buildx-stable-1",
+          "image": "registry.cluster.local/newben/buildkit"
+        },
+        "body": {
+          "name": "file",
+          "filename": "exec_test.sh"
+        }
+      }
+      path:
+        get_image_list: /webserver/apis/repositories
+        upload_image: /webserver/apis/image
+        view_image_detail: /webserver/apis/tags
+        deploy_image: /webserver/apis/application/createApplication
+        download_image: /webserver/apis/image/download
+        delete_image: /webserver/apis/tag
+        get_uid: /webserver/apis/build
+        online_product_image: /webserver/apis/dockerfile
+    vm_image:
+
+  log_manager:
+    log_level: {
+      "panic": 0,
+      "fatal": 1,
+      "error": 2,
+      "warn": 3,
+      "info": 4,
+      "debug": 5,
+      "trace": 6
+    }
+    event_log:
+      default_query_param: {
+        "page": 1,
+        "size": 10,
+        "componentName": "",
+        "workerName": "",
+        "level": 1,
+        "startTime": "2020-10-10 10:10:10",
+        "endTime": "2023-10-10 10:10:10"
+      }
+      path:
+        get_components: /logs/components
+        get_workers: /logs/workers
+        query_log: /logs/search
+    audit_log:
+      default_query_param: {
+        "page": 1,
+        "size": 10,
+        "user_name": "",
+        "action": "",
+        "start": "2020-10-10",
+        "end": "2023-10-10"
+      }
+      path:
+        get_handle_accounts: /webserver/apis/auditlog/getHandleAccount
+        get_handle_actions: /webserver/apis/auditlog/getHandleAction
+        query_log: /webserver/apis/auditlog/list
+
+  space_manager:
+    space_list:
+      default_create_space_data: {
+        "name": "system",
+        "description": ""
+      }
+      path:
+        create_space: /webserver/apis/space/create
+        modify_space: /webserver/apis/space/update
+        delete_space: /webserver/apis/space/delete
+        get_spaces: /webserver/apis/space/availablespace
+        search_spaces_paging: /webserver/apis/space/list
+
+  user_manager:
+    user_list:
+      default_create_user_data: {
+        "username": "admin",
+        "password": "1",
+        "confPassword": "1"
+      }
+      path:
+        operate_user: /webserver/apis/user
+        search_users_paging: /webserver/apis/users
+
+  storage_manager:
+    storage_pool:
+      default_create_storage_pool_data: {
+        "local_storage": {
+          "name": "storage-poll",
+          "provisioner": "LocalStorage",
+          "workerName": "node1",
+          "parameters": { "host": "192.168.5.61:5270","path": "/root" }
+        },
+        #        "glusterfs": {
+        #          "name": "storage-poll",
+        #          "provisioner": "GlusterFS",
+        #          "total": 10,
+        #          "parameters": { "host": "http://192.168.6.246:24007" }
+        #        },
+        #        "cephfs": {
+        #          "name": "storage-poll",
+        #          "provisioner": "CephFS",
+        #          "parameters": { "mons": "192.168.6.246:24007" }
+        #        },
+        #        "cephrbd": {
+        #          "name": "storage-poll",
+        #          "provisioner": "CephRBD",
+        #          "total": 10,
+        #          "parameters": {
+        #            "mons": "192.168.5.50:6789",
+        #            "user": "client.admin",
+        #            "key": "AQDhEq9hgPHtARAAZTCsINCYiqBdFD4E5HnPQA==",
+        #            "pool": "test-pool"
+        #          }
+        #        }
+      }
+      path:
+        get_storage_pool_type: /webserver/apis/storagepool/parameters
+        get_worker_name: /webserver/apis/storagepool/workernamelist
+        create_storage_pool: /webserver/apis/storagepool
+        search_storage_pool: /webserver/apis/storagepool
+        view_storage_pool_details: /webserver/apis/persistentvolumeclaim/spReferToPVCList
+        view_storage_pool_handle_details: /webserver/apis/event/list
+        delete_storage_pool: /webserver/apis/storagepool
+    storage_volume:
+      default_create_storage_volume_data: {
+        "local_storage": {
+          "name": "storage-volume",
+          "storagePool": "storage-pool-10",
+          "accessMode": [ "ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany" ]
+        },
+        #        "glusterfs": {
+        #          "name": "storage-poll",
+        #          "provisioner": "GlusterFS",
+        #          "total": 10,
+        #          "parameters": { "host": "http://192.168.6.246:24007" }
+        #        },
+        #        "cephfs": {
+        #          "name": "storage-poll",
+        #          "provisioner": "CephFS",
+        #          "parameters": { "mons": "192.168.6.246:24007" }
+        #        },
+        #        "cephrbd": {
+        #          "name": "storage-poll",
+        #          "provisioner": "CephRBD",
+        #          "total": 10,
+        #          "parameters": {
+        #            "mons": "192.168.5.50:6789",
+        #            "user": "client.admin",
+        #            "key": "AQDhEq9hgPHtARAAZTCsINCYiqBdFD4E5HnPQA==",
+        #            "pool": "test-pool"
+        #          }
+        #        }
+      }
+      path:
+        get_storage_pool_list: /webserver/apis/storagepool/namelist
+        create_storage_volume: /webserver/apis/persistentvolumeclaim/create
+        search_storage_volume: /webserver/apis/persistentvolumeclaim/pvcList
+        view_configure: /webserver/apis/persistentvolumeclaim/detail
+        view_handle_detail: /webserver/apis/event/list
+        delete_storage_volume: /webserver/apis/persistentvolumeclaim/delete
+
+  permission_manager:
+    role:
+      type_permission_data: {
+        "whole": [ { "key": "apps/application/get" },
+                   { "key": "apps/application/list" },
+                   { "key": "apps/application/create" },
+                   { "key": "apps/application/update" },
+                   { "key": "apps/application/delete" },
+                   { "key": "apps/appmatrix/get" },
+                   { "key": "apps/appmatrix/list" },
+                   { "key": "apps/appmatrix/create" },
+                   { "key": "apps/appmatrix/update" },
+                   { "key": "apps/appmatrix/delete" },
+                   { "key": "apps/mission/get" },
+                   { "key": "apps/mission/list" },
+                   { "key": "apps/mission/create" },
+                   { "key": "apps/mission/delete" },
+                   { "key": "apps/cronmission/get" },
+                   { "key": "apps/cronmission/list" },
+                   { "key": "apps/cronmission/create" },
+                   { "key": "apps/cronmission/update" },
+                   { "key": "apps/cronmission/delete" },
+                   { "key": "apps/apparafile/get" },
+                   { "key": "apps/apparafile/list" },
+                   { "key": "apps/apparafile/create" },
+                   { "key": "apps/apparafile/update" },
+                   { "key": "apps/apparafile/delete" },
+                   { "key": "apps/autoscale/get" },
+                   { "key": "apps/autoscale/list" },
+                   { "key": "apps/autoscale/create" },
+                   { "key": "apps/autoscale/update" },
+                   { "key": "apps/autoscale/delete" },
+                   { "key": "apps/box/get" },
+                   { "key": "apps/box/list" },
+                   { "key": "apps/box/delete" },
+                   { "key": "apps/boxset/get" },
+                   { "key": "apps/boxset/list" },
+                   { "key": "apps/applicationmetrics/get" },
+                   { "key": "apps/applicationmetrics/list" },
+                   { "key": "apps/boxmetrics/get" },
+                   { "key": "apps/boxmetrics/list" },
+                   { "key": "apps/missionmetrics/get" },
+                   { "key": "apps/missionmetrics/list" },
+                   { "key": "apps/forward/get" },
+                   { "key": "apps/forward/list" },
+                   { "key": "apps/forward/create" },
+                   { "key": "apps/forward/delete" },
+                   { "key": "apps/storagepool/get" },
+                   { "key": "apps/storagepool/list" },
+                   { "key": "apps/storagepool/create" },
+                   { "key": "apps/storagepool/update" },
+                   { "key": "apps/storagepool/delete" },
+                   { "key": "apps/persistentvolumeclaim/get" },
+                   { "key": "apps/persistentvolumeclaim/list" },
+                   { "key": "apps/persistentvolumeclaim/create" },
+                   { "key": "apps/persistentvolumeclaim/update" },
+                   { "key": "apps/persistentvolumeclaim/delete" },
+                   { "key": "auth/role/get" },
+                   { "key": "auth/role/list" },
+                   { "key": "auth/role/create" },
+                   { "key": "auth/role/update" },
+                   { "key": "auth/role/delete" },
+                   { "key": "auth/superrole/get" },
+                   { "key": "auth/superrole/list" },
+                   { "key": "auth/superrole/create" },
+                   { "key": "auth/superrole/update" },
+                   { "key": "auth/superrole/delete" },
+                   { "key": "auth/rolemapping/get" },
+                   { "key": "auth/rolemapping/list" },
+                   { "key": "auth/rolemapping/create" },
+                   { "key": "auth/rolemapping/update" },
+                   { "key": "auth/rolemapping/delete" },
+                   { "key": "auth/superrolemapping/get" },
+                   { "key": "auth/superrolemapping/list" },
+                   { "key": "auth/superrolemapping/create" },
+                   { "key": "auth/superrolemapping/update" },
+                   { "key": "auth/superrolemapping/delete" },
+                   { "key": "apps/worker/get" },
+                   { "key": "apps/worker/list" },
+                   { "key": "apps/worker/update" },
+                   { "key": "apps/workerset/get" },
+                   { "key": "apps/workerset/list" },
+                   { "key": "apps/workerset/create" },
+                   { "key": "apps/workerset/update" },
+                   { "key": "apps/workerset/delete" },
+                   { "key": "apps/workermetrics/get" },
+                   { "key": "apps/workermetrics/list" },
+                   { "key": "apps/user/get" },
+                   { "key": "apps/user/list" },
+                   { "key": "apps/user/create" },
+                   { "key": "apps/user/update" },
+                   { "key": "apps/user/delete" },
+                   { "key": "system/workspace/get" },
+                   { "key": "system/workspace/list" },
+                   { "key": "system/workspace/create" },
+                   { "key": "system/workspace/update" },
+                   { "key": "system/workspace/delete" },
+                   { "key": "network/ippool/get" },
+                   { "key": "network/ippool/list" },
+                   { "key": "network/ippool/create" },
+                   { "key": "network/ippool/update" },
+                   { "key": "network/ippool/delete" },
+                   { "key": "network/networkpolicy/get" },
+                   { "key": "network/networkpolicy/list" },
+                   { "key": "network/networkpolicy/create" },
+                   { "key": "network/networkpolicy/update" },
+                   { "key": "network/networkpolicy/delete" } ],
+        "workspace": [ { "key": "apps/application/get" },
+                       { "key": "apps/application/list" },
+                       { "key": "apps/application/create" },
+                       { "key": "apps/application/update" },
+                       { "key": "apps/application/delete" },
+                       { "key": "apps/appmatrix/get" },
+                       { "key": "apps/appmatrix/list" },
+                       { "key": "apps/appmatrix/create" },
+                       { "key": "apps/appmatrix/update" },
+                       { "key": "apps/appmatrix/delete" },
+                       { "key": "apps/mission/get" },
+                       { "key": "apps/mission/list" },
+                       { "key": "apps/mission/create" },
+                       { "key": "apps/mission/delete" },
+                       { "key": "apps/cronmission/get" },
+                       { "key": "apps/cronmission/list" },
+                       { "key": "apps/cronmission/create" },
+                       { "key": "apps/cronmission/update" },
+                       { "key": "apps/cronmission/delete" },
+                       { "key": "apps/apparafile/get" },
+                       { "key": "apps/apparafile/list" },
+                       { "key": "apps/apparafile/create" },
+                       { "key": "apps/apparafile/update" },
+                       { "key": "apps/apparafile/delete" },
+                       { "key": "apps/autoscale/get" },
+                       { "key": "apps/autoscale/list" },
+                       { "key": "apps/autoscale/create" },
+                       { "key": "apps/autoscale/update" },
+                       { "key": "apps/autoscale/delete" },
+                       { "key": "apps/box/get" },
+                       { "key": "apps/box/list" },
+                       { "key": "apps/box/delete" },
+                       { "key": "apps/boxset/get" },
+                       { "key": "apps/boxset/list" },
+                       { "key": "apps/applicationmetrics/get" },
+                       { "key": "apps/applicationmetrics/list" },
+                       { "key": "apps/boxmetrics/get" },
+                       { "key": "apps/boxmetrics/list" },
+                       { "key": "apps/missionmetrics/get" },
+                       { "key": "apps/missionmetrics/list" },
+                       { "key": "apps/forward/get" },
+                       { "key": "apps/forward/list" },
+                       { "key": "apps/forward/create" },
+                       { "key": "apps/forward/delete" },
+                       { "key": "apps/persistentvolumeclaim/get" },
+                       { "key": "apps/persistentvolumeclaim/list" },
+                       { "key": "apps/persistentvolumeclaim/create" },
+                       { "key": "apps/persistentvolumeclaim/update" },
+                       { "key": "apps/persistentvolumeclaim/delete" },
+                       { "key": "auth/role/get" },
+                       { "key": "auth/role/list" },
+                       { "key": "auth/role/create" },
+                       { "key": "auth/role/update" },
+                       { "key": "auth/role/delete" },
+                       { "key": "auth/rolemapping/get" },
+                       { "key": "auth/rolemapping/list" },
+                       { "key": "auth/rolemapping/create" },
+                       { "key": "auth/rolemapping/update" },
+                       { "key": "auth/rolemapping/delete" } ]
+      }
+      default_create_role_data: {
+        "name": "role",
+        "comment": "创建角色",
+        "type": "whole",
+        "items": [ ]
+      }
+      path:
+        super_role_mapping: /webserver/apis/rolemapping/hasSuperRoleMapping
+        type_permission: /webserver/apis/roles/user
+        create_role: /webserver/apis/role
+        update_role: /webserver/apis/role
+        delete_role: /webserver/apis/role
+        search_role: /webserver/apis/roles
+
+    authorization:
+      path:
+        user_and_roles: /webserver/apis/rolemapping/userAndRoles
+        create_authorization: /webserver/apis/rolemapping
+        search_authorization: /webserver/apis/rolemappings
+        update_authorization: /webserver/apis/rolemapping
+        delete_authorization: /webserver/apis/rolemapping
+      authorize_scope: [ "whole", "workspace" ]
+      default_create_authorization_data: {
+        "name": "authorization",
+        "comment": "创建授权",
+        "objects": { "user": [ "aa" ] },
+        "roles": { "superRole": [ "bb" ] },
+        "type": "whole",
+      }
+

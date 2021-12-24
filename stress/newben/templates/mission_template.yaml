@@ -1,0 +1,46 @@
+meta:
+  domain: apps
+  kind: mission
+  name: neilautomission-tensorflow
+  workspace: ai
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    type: container
+    containers:
+      - image: registry.ghostcloud.cn/ai/tensorflow:1.15.0
+        imagePullPolicy: IfNotPresent
+        name: neilautomission-tensorflow-container
+        resources:
+          memory: 8589934592
+          cpu: 4000
+        command:
+          - python
+          - mnist.py
+        volumeMounts:
+          - alias: ai
+            mountPath: /root/code
+            subPath: 4/test-not-delete-1415927/tf-s
+          - alias: ai
+            mountPath: /root/data
+            subPath: 4/datasets/mnist
+          - alias: ai
+            mountPath: /root/output
+            subPath: 4/test-not-delete-1415927/tf-s/ouput/job-20210812144120315-0.0.2
+        restartPolicy: Never
+        shmSize: 1073741824
+        ulimits:
+          - Name: memlock
+            Hard: -1
+            Soft: -1
+    volumes:
+      - alias: ai
+        type: persistentvolumeclaim
+        sourceName: ai-storage
+    workerAffinity:
+      matchExpressions: null
+    network: ai
+    hostname: ''
+  backoffLimit: 1
+  activeDeadlineSeconds: 36000000
